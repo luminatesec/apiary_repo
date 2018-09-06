@@ -121,7 +121,7 @@ info:
 ################################################################################
 #                  Host, Base Path, Schemes and Content Types                  #
 ################################################################################
-host: api.company.luminatesite.com
+host: api.company.luminatesec.com
 basePath: /v2
 schemes:
   - https
