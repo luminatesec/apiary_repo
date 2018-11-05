@@ -699,7 +699,13 @@ paths:
       tags:
         - Applications
       summary: Assign Directory Entity to Application
-      description: Assigns a directory entity to an application
+      description: | 
+                    Assigns a directory entity to an application.
+                    
+                    This call assigns a directory entity (user, group or api client) 
+                    with a security role to an application
+                    
+                    A security role reference an existing custom ssh user account in the applicaion and optional parameters
       operationId: createOrUpdateDirectoryEntityBindingUsingPUT
       consumes:
         - application/json
