@@ -2132,9 +2132,10 @@ definitions:
         description: Enable/Disable Transparent SSH agent forwarding.
       sshUserAccountStrategy:
         type: string
-        description: The strategy to allow SSH-User-Account (Specific).
+        description: The strategy to allow specific SSH-User-Account (Specific), or also with the user's username (SpecificAndAutomaticUsername)
         enum:
           - Specific
+          - SpecificAndAutomaticUsername
   SiteBindingDto:
     type: object
     required:
