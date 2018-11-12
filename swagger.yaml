@@ -107,12 +107,16 @@ info:
     will alway be backwards compatible. Such minor changes may be new non-mandatory
     attributes on requests or new attributes on responses.
 
-    ## Entities and Bindings
+    ## Domain Models
     
-    Luminate uses the following objects describes an user or group entity, its privileges and their binding
-    - Directory Entity describes an user or a group
-    - Security Role describes SSH account privileges
-    - Directory Entity Binding describes a relation of a Directory Entity and a Security Role
+    - Site: a represention of the physical or virtual data-center your applications resides in.
+    - Connector: the Luminate connector -  lightweight docker container, that provides connectivity to the internal resources via the site to Luminate Secure Access Cloud. 
+    - Application: the internal resource to be published using Luminate.
+    - Directory-Entity-Bindings is a 3-tuple represents the application authorization policy and including the following: 
+      -	Application
+      -	Directory-Entity: the user/group/api-client identity to bind to the application 
+      -	Security-Role: the security related settings and privileges of the directory-entity on the associated application. The settings include the SSH-User accounts this directory-entity allow to connect to. Authorization method (whether SSH-Keys are allowed) and so on.  
+    - Identity: a user/group from the identity-provider (such as Okta, Azure, etc.) or the local identity-provider. 
 
     ## Support
 
@@ -703,9 +707,9 @@ paths:
                     Assigns a directory entity to an application.
                     
                     This call assigns a directory entity (user, group or api client) 
-                    with a security role to an application
+                    with a security role to an application.
                     
-                    A security role reference an existing custom ssh user account in the applicaion and optional parameters
+                    A security role reference an existing custom ssh user account in the application and optional parameters
       operationId: createOrUpdateDirectoryEntityBindingUsingPUT
       consumes:
         - application/json
