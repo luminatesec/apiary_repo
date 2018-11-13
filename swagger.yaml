@@ -1121,6 +1121,36 @@ paths:
           schema:
             $ref: '#/definitions/InternalError' 
 #####################################
+#         Sessions Paths            #
+#####################################    
+  /sessions/destroy:
+    post:
+      tags:
+        - 'Sessions'
+      summary: Destroy all the active sessions for the given user.
+      description: |
+                The sessions destroy endpoint allows retreiving all logs matching a given filter.
+
+      parameters:
+      - $ref: '#/parameters/AuthHeader'
+      - in: "body"
+        name: "body"
+        description: "User details"
+        required: true
+        schema:
+          $ref: "#/definitions/destroyUserSessionsData"
+      responses:
+        204:
+          description: OK
+        400:
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+        500:
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ErrorResponse'
+#####################################
 #         Logs Paths                #
 #####################################    
 #####################################
@@ -2689,6 +2719,22 @@ definitions:
         type: string
         description: A human readable error message.
         
+        
+#############################################
+#####  Sessions related definitions        ######
+#############################################      
+  destroyUserSessionsData:
+    type: "object"
+    required:
+    - identity_provider_id
+    - user_id
+    properties:
+      identity_provider_id:
+        description: "Identity Provider ID"
+        type: "string"
+      user_id:
+        description: "User ID"
+        type: "string"
 #############################################
 #####  LOGS related definitions        ######
 #############################################
