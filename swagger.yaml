@@ -531,8 +531,6 @@ paths:
       responses:
         '200':
           description: OK
-        '201':
-          description: Created
         '401':
           description: Unauthorized
         '403':
@@ -1129,7 +1127,7 @@ paths:
         - 'Sessions'
       summary: Destroy all the active sessions for the given user.
       description: |
-                The sessions destroy endpoint allows retreiving all logs matching a given filter.
+                The sessions destroy endpoint allows to delete all active sessions for the given user.
 
       parameters:
       - $ref: '#/parameters/AuthHeader'
