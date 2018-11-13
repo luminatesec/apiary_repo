@@ -731,7 +731,6 @@ paths:
                   "identityProviderId":"local"
                },
                "securityRole":{
-                  "id":"",
                   "sshUserAccountStrategy":"Specific",
                   "customSshUserAccounts":[]
                }
