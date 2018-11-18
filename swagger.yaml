@@ -514,7 +514,7 @@ paths:
             description: Internal service error
             schema:
               $ref: '#/definitions/InternalError'
-  /v1/connectors/{connector_id}:
+  /connectors/{connector_id}:
     parameters:
       - $ref: '#/parameters/AuthHeader'
       - name: connector_id
@@ -525,7 +525,8 @@ paths:
     get:
       tags:
         - Connectors
-      summary: Returns a given Connector resource
+      summary: Get Connector
+      description: Fetches an Connector from your Luminate tenant by id
       responses:
         200:
           description: Resource retrieved successfully
@@ -542,7 +543,8 @@ paths:
     put:
       tags:
         - Connectors
-      summary: Updates a Connector resource
+      summary: Updates a connector in your tenant.
+      description: Fetches an Connector from your Luminate tenant by id
       parameters:
         - name: connector
           in: body
@@ -589,7 +591,7 @@ paths:
           description: Internal service error
           schema:
             $ref: '#/definitions/InternalError'
-  /v1/connectors/{connector_id}/command:
+  /connectors/{connector_id}/command:
     parameters:
       - $ref: '#/parameters/AuthHeader'
       - name: connector_id
