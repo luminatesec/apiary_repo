@@ -983,16 +983,40 @@ paths:
 #####################################
 #         Identities Paths        #
 #####################################          
-  /identities/local/users/:
+  /identities/settings/identity-providers:
     get:
       tags:
         - Identities
-      summary: List Local Users
+      summary: List Identity Providers
       description: |
-          Enumerates users from the local users repository in your Luminate tenant with pagination in most cases
+        Enumerates configured identity providers in your Luminate tenant
+      parameters:
+      - $ref: '#/parameters/AuthHeader'
+      responses:
+        200:
+          description: "A list of identity providers"
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/IdentityProviderMinDetails"
+
+  /identities/{idp_id}/users/:
+    get:
+      tags:
+        - Identities
+      summary: List Users From Idp
+      description: |
+          Enumerates users from the identity provider id users repository in your Luminate tenant with pagination in most cases
+
+          For the local users repository in your Luminate tenant, set idp_id to 'local'
 
           A subset of users can be returned that match a supported filter expression or search criteria.
       parameters:
+      - name: idp_id
+        in: path
+        description: the identity provider id
+        required: true
+        type: string
       - $ref: '#/parameters/AuthHeader'
       - $ref: '#/parameters/PageSizeHeader'
       - $ref: '#/parameters/Email'
@@ -1008,6 +1032,39 @@ paths:
           description: Internal service error
           schema:
             $ref: '#/definitions/InternalError'
+  /identities/{idp_id}/users/{user_id}:
+    get:
+      tags:
+        - Identities
+      summary: Get Local User
+      description: |
+          Get  user’s profile from identity provider id.
+          
+          For the local users repository in your Luminate tenant, set idp_id to 'local'
+      parameters:
+        - name: idp_id
+          in: path
+          description: the identity provider id
+          required: true
+          type: string
+        - $ref: '#/parameters/AuthHeader'
+        - name: user_id
+          in: path
+          description: The User ID
+          required: true
+          type: string
+      responses:
+        200:
+          description: Resource retrieved successfully
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/User'
+        500:
+          description: Internal service error
+          schema:
+            $ref: '#/definitions/InternalError' 
+  /identities/local/users/:
     post:
       tags:
         - Identities
@@ -1028,30 +1085,6 @@ paths:
           schema:
             $ref: '#/definitions/User'
   /identities/local/users/{user_id}:
-    get:
-      tags:
-        - Identities
-      summary: Get Local User
-      description: |
-          Get  user’s profile from the local users repository in your Luminate tenant.
-      parameters:
-        - $ref: '#/parameters/AuthHeader'
-        - name: user_id
-          in: path
-          description: The User ID
-          required: true
-          type: string
-      responses:
-        200:
-          description: Resource retrieved successfully
-          schema:
-            type: array
-            items:
-              $ref: '#/definitions/User'
-        500:
-          description: Internal service error
-          schema:
-            $ref: '#/definitions/InternalError' 
     put:
       tags:
         - Identities
@@ -2386,6 +2419,19 @@ definitions:
       name:
         type: string
         description: The ssh-user-account name
+  IdentityProviderMinDetails:
+    type: object
+    properties:
+      id:
+        type: string
+        description: "Identity Provider uuid"
+        example: "d8028639-a76a-4614-965a-7e3d4832d88b"
+      name:
+        type: string
+        description: "Friendly name of the provider"
+        example: "ACME Azure AD"
+      provider:
+        type: string
   Connector:
     type: object
     properties:
