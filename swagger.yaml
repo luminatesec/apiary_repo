@@ -899,6 +899,14 @@ paths:
                     This call assigns a directory entity (user, group or api client) 
                     with a security role to an application.
                     
+                    The Identity Provider Type is: 
+                    'local' for the local user repository in Luminate,
+                    'ad' for Azure AD,
+                    'okta' for Okta,
+                    'adfs' for AD FS,
+                    'gapps' for Google,
+                    'onelogin' for OneLogin
+                    
                     A security role reference an existing custom ssh user account in the application and optional parameters
       operationId: createOrUpdateDirectoryEntityBindingUsingPUT
       consumes:
