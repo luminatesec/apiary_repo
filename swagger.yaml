@@ -543,8 +543,8 @@ paths:
     put:
       tags:
         - Connectors
-      summary: Updates a connector in your tenant.
-      description: Fetches an Connector from your Luminate tenant by id
+      summary: Update Connector.
+      description: Updates a connector in your tenant.
       parameters:
         - name: connector
           in: body
@@ -570,14 +570,8 @@ paths:
     delete:
       tags:
         - Connectors
-      summary: Delete a given Connector resource
-      parameters:
-        - name: bind_to_site_id
-          in: query
-          description: |
-              The Site ID from which this connector should be disassociated.
-          type: string
-          required: false
+      summary: Delete Connector
+      description: Deletes permanently a connector.
       responses:
         200:
           description: Connector was deleted successfully
