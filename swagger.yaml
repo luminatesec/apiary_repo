@@ -515,18 +515,18 @@ paths:
             schema:
               $ref: '#/definitions/InternalError'
   /connectors/{connector_id}:
-    parameters:
-      - $ref: '#/parameters/AuthHeader'
-      - name: connector_id
-        in: path
-        description: The connector ID
-        required: true
-        type: string
     get:
       tags:
         - Connectors
       summary: Get Connector
       description: Fetches an Connector from your Luminate tenant by id
+      parameters:
+      - $ref: '#/parameters/AuthHeader'
+      - name: connector_id
+        in: path
+        description: The Connector ID
+        required: true
+        type: string
       responses:
         200:
           description: Resource retrieved successfully
@@ -546,6 +546,12 @@ paths:
       summary: Update Connector.
       description: Updates a connector in your tenant.
       parameters:
+        - $ref: '#/parameters/AuthHeader'
+        - name: connector_id
+          in: path
+          description: The Connector ID
+          required: true
+          type: string
         - name: connector
           in: body
           description: The connector JSON to update/insert
@@ -572,6 +578,13 @@ paths:
         - Connectors
       summary: Delete Connector
       description: Deletes permanently a connector.
+      parameters:
+        - $ref: '#/parameters/AuthHeader'
+        - name: connector_id
+          in: path
+          description: The Connector ID
+          required: true
+          type: string
       responses:
         200:
           description: Connector was deleted successfully
