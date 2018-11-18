@@ -1036,7 +1036,7 @@ paths:
     get:
       tags:
         - Identities
-      summary: Get Local User
+      summary: Get User
       description: |
           Get  user’s profile from identity provider id.
           
