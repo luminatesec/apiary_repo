@@ -271,7 +271,7 @@ parameters:
 paths:
       
 #####################################
-#         Site Paths        #
+#         Site Paths                #
 #####################################          
   /sites/:
     get:
@@ -441,6 +441,190 @@ paths:
           description: Internal service error
           schema:
             $ref: '#/definitions/InternalError'
+#####################################
+#         Site Paths                #
+#####################################     
+  /connectors/:
+    get:
+      tags:
+        - Connectors
+      summary: List Connectors
+      description: |
+        Enumerates connectors added to your Luminate tenant.
+        
+        Returns Array of Applications
+      operationId: listAllConnectors
+      consumes:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/AuthHeader'
+      produces:
+        - application/json;charset=UTF-8
+      responses:
+        '200':
+          description: Resource retrieved successfully
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Connector'
+        '500':
+          description: Internal service error
+          schema:
+            $ref: '#/definitions/InternalError'
+    post:
+      tags:
+        - Connectors
+      summary: Add Connector
+      description: |
+            Creates a new Connector resource with a unique ID.
+            The new resource will be returned in the response
+      operationId: addConnector
+      consumes:
+        - application/json
+
+      produces:
+        - application/json;charset=UTF-8
+      parameters:
+        - $ref: '#/parameters/AuthHeader'
+        - name: bind_to_site_id
+          in: query
+          description: |
+              The Site ID to which this connector should be associated with. If not specified then
+              the connector will not be associated to a Site yet.
+          type: string
+          required: false
+        - name: connector
+          in: body
+          description: The connector JSON to update/insert
+          schema:
+            $ref: '#/definitions/ConnectorPostRequest'
+          required: true
+      responses:
+        201:
+          description: Connector was created successfully
+          schema:
+            $ref: '#/definitions/Connector'
+        400:
+          description: Invalid request parameters
+          schema:
+            $ref: '#/definitions/ValidationError'
+        404:
+          description: Connector not found
+        500:
+            description: Internal service error
+            schema:
+              $ref: '#/definitions/InternalError'
+  /v1/connectors/{connector_id}:
+    parameters:
+      - $ref: '#/parameters/AuthHeader'
+      - name: connector_id
+        in: path
+        description: The connector ID
+        required: true
+        type: string
+    get:
+      tags:
+        - Connectors
+      summary: Returns a given Connector resource
+      responses:
+        200:
+          description: Resource retrieved successfully
+          schema:
+            $ref: '#/definitions/Connector'
+        400:
+          description: Invalid request parameters
+        404:
+          description: Connector not found
+        500:
+          description: Internal service error
+          schema:
+            $ref: '#/definitions/InternalError'
+    put:
+      tags:
+        - Connectors
+      summary: Updates a Connector resource
+      parameters:
+        - name: connector
+          in: body
+          description: The connector JSON to update/insert
+          schema:
+            $ref: '#/definitions/Connector'
+          required: true
+      responses:
+        200:
+          description: Connector was updated successfully
+          schema:
+            $ref: '#/definitions/Connector'
+        400:
+          description: Invalid request parameters
+          schema:
+            $ref: '#/definitions/ValidationError'
+        404:
+          description: Connector not found
+        500:
+          description: Internal service error
+          schema:
+            $ref: '#/definitions/InternalError'
+    delete:
+      tags:
+        - Connectors
+      summary: Delete a given Connector resource
+      parameters:
+        - name: bind_to_site_id
+          in: query
+          description: |
+              The Site ID from which this connector should be disassociated.
+          type: string
+          required: false
+      responses:
+        200:
+          description: Connector was deleted successfully
+        400:
+          description: Invalid request parameters
+          schema:
+            $ref: '#/definitions/ValidationError'
+        404:
+          description: Connector not found
+        500:
+          description: Internal service error
+          schema:
+            $ref: '#/definitions/InternalError'
+  /v1/connectors/{connector_id}/command:
+    parameters:
+      - $ref: '#/parameters/AuthHeader'
+      - name: connector_id
+        in: path
+        description: The connector ID
+        required: true
+        type: string
+    post:
+        tags:
+          - Connectors
+        summary: Generate docker installation commands for this connector.
+        description: |
+              Generate docker installation commands (for all deployment types) for this connector by passing all the additional information as a post body
+        parameters:
+          - name: additional_config
+            in: body
+            description: The additional configuration to pass to command generator JSON
+            schema:
+              $ref: '#/definitions/GenCommandAdditionalConfig'
+            required: false
+        responses:
+            200:
+              description: Connector installation commands
+              schema:
+                $ref: '#/definitions/ConnectorInstallationCommand'
+            400:
+              description: Invalid request parameters
+              schema:
+                $ref: '#/definitions/ValidationError'
+            404:
+              description: Connector not found
+            500:
+              description: Internal service error
+              schema:
+                $ref: '#/definitions/InternalError'
 #####################################
 #         Applications Paths        #
 #####################################
@@ -2242,6 +2426,15 @@ definitions:
       update_status_info:
         type: string
         example: "error downloading new connector"
+  ConnectorPostRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          example: "Connector A"
+        version:
+          type: string
+          example: "1.0"
   RegisteredConnector:
     type: object
     properties:
@@ -2328,15 +2521,6 @@ definitions:
       proxyPassword:
         type: string
         example: "*****"
-  ConnectorPostRequest:
-      type: object
-      properties:
-        name:
-          type: string
-          example: "Connector A"
-        version:
-          type: string
-          example: "1.0"
 ## The application resource ##
   Application:
     type: object
