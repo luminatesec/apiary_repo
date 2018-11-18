@@ -599,13 +599,6 @@ paths:
           schema:
             $ref: '#/definitions/InternalError'
   /connectors/{connector_id}/command:
-    parameters:
-      - $ref: '#/parameters/AuthHeader'
-      - name: connector_id
-        in: path
-        description: The connector ID
-        required: true
-        type: string
     post:
         tags:
           - Connectors
@@ -613,6 +606,12 @@ paths:
         description: |
               Generate docker installation commands (for all deployment types) for this connector by passing all the additional information as a post body
         parameters:
+          - $ref: '#/parameters/AuthHeader'
+          - name: connector_id
+            in: path
+            description: The connector ID
+            required: true
+            type: string
           - name: additional_config
             in: body
             description: The additional configuration to pass to command generator JSON
