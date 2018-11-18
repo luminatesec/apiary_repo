@@ -1208,16 +1208,23 @@ paths:
         204:
           description: Resource retrieved successfully
 
-  /identities/local/groups/:
+  /identities/{idp_id}/groups/:
     get:
       tags:
         - Identities
-      summary: List Local Groups
+      summary: List Groups
       description: |
-          Lists local groups in your Lumninate tenant with pagination in most cases
-
+          Enumerates users from the identity provider id users repository in your Luminate tenant with pagination in most cases
+          
+          For the local users repository in your Luminate tenant, set idp_id to 'local'
+          
           A subset of users can be returned that match a supported filter expression or search criteria.
       parameters:
+        - name: idp_id
+          in: path
+          description: the identity provider id
+          required: true
+          type: string
         - $ref: '#/parameters/AuthHeader'
         - $ref: '#/parameters/QueryFilterHeader'
         - $ref: '#/parameters/PageSizeHeader'
@@ -1230,6 +1237,7 @@ paths:
           description: Internal service error
           schema:
             $ref: '#/definitions/InternalError'
+  /identities/local/groups/:
     post:
       tags:
         - Identities
@@ -1266,7 +1274,7 @@ paths:
           schema:
             $ref: '#/definitions/InternalError'
             
-  /identities/local/groups/{group_id}:
+  /identities/{idp_id}/groups/{group_id}:
     get:
       tags:
         - Identities
@@ -1274,6 +1282,11 @@ paths:
       description: |
           Get  group’s details
       parameters:
+        - name: idp_id
+          in: path
+          description: the identity provider id
+          required: true
+          type: string
         - $ref: '#/parameters/AuthHeader'
         - name: group_id
           in: path
@@ -1291,6 +1304,7 @@ paths:
           description: Internal service error
           schema:
             $ref: '#/definitions/InternalError' 
+  /identities/local/groups/{group_id}:
     put:
       tags:
         - Identities
