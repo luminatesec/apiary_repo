@@ -897,7 +897,7 @@ paths:
                     Assigns a directory entity to an application.
                     
                     This call assigns a directory entity (user, group or api client) 
-                    with a security role to an application.
+                    with a security role (for SSH application type) to an application.
                     
                     The Identity Provider Type is: 
                     'local' for the local user repository in Luminate,
@@ -937,7 +937,7 @@ paths:
               }
           required: true
           schema:
-            $ref: '#/definitions/DirectoryEntityBindingDto'
+            $ref: '#/definitions/DirectoryEntityBindingRequest'
       responses:
         '200':
           description: OK
@@ -2128,6 +2128,42 @@ definitions:
         type: string
       isHealthy:
         type: boolean
+  DirectoryEntityBindingRequest:
+    type: object
+    properties:
+      directoryEntity:
+        $ref: '#/definitions/DirectoryEntityRequest'
+      securityRole:
+        $ref: '#/definitions/SecurityRoleRequest'
+  DirectoryEntityRequest:
+    type: object
+    required:
+      - identifierInProvider
+      - identityProviderId
+      - identityProviderType
+      - type
+    properties:
+      displayName:
+        type: string
+        description: The display-name of this directory entity (optional).
+      identifierInProvider:
+        type: string
+        description: The identifier of this entity in the identity provider owning this directory entity.
+      identityProviderId:
+        type: string
+        description: The identity provider owning this directory entity.
+      identityProviderType:
+        type: string
+        description: The identity provider owning this directory entity (Local/ActiveDirectory/Okta).
+        default: "local"      
+      type:
+        type: string
+        description: The directory entity type (User/Group/OU).
+        enum:
+          - User
+          - Group
+          - OU
+          - ApiClient
   DirectoryEntityBindingDto:
     type: object
     properties:
@@ -2393,10 +2429,32 @@ definitions:
       totalPages:
         type: integer
         format: int32
-  SecurityRoleDto:
+  SecurityRoleRequest:
     type: object
     required:
       - sshUserAccountStrategy
+    properties:
+      customSshUserAccounts:
+        type: array
+        description: The custom allowed SSH-User-Accounts.
+        items:
+          $ref: '#/definitions/SshUserAccountDto'
+      isSshKeyAuthenticationMethodEnabled:
+        type: boolean
+        example: false
+        description: Enable/Disable SSH-Key Authentication Method.
+      isTransparentAgentForwardingEnabled:
+        type: boolean
+        example: false
+        description: Enable/Disable Transparent SSH agent forwarding.
+      sshUserAccountStrategy:
+        type: string
+        description: The strategy to allow specific SSH-User-Account (Specific), or also with the user's username (SpecificAndAutomaticUsername)
+        enum:
+          - Specific
+          - SpecificAndAutomaticUsername
+  SecurityRoleDto:
+    type: object
     properties:
       customSshUserAccounts:
         type: array
