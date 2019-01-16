@@ -1023,10 +1023,15 @@ paths:
       summary: List Users From Idp
       description: |
           Enumerates users from the identity provider id users repository in your Luminate tenant with pagination in most cases
-
+          
+          In order to retrieve the next page while 'last' is false, perform the exact same request as previously and append a 'pageOffset' query field with the value of 'nextPage' from the previous page. 
+          A new 'nextPage' value is provided on the following pages until all the results are retrieved.
+          
           For the local users repository in your Luminate tenant, set idp_id to 'local'
 
           A subset of users can be returned that match a supported filter expression or search criteria.
+          
+          
       parameters:
       - name: idp_id
         in: path
