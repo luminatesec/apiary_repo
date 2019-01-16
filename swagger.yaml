@@ -199,10 +199,10 @@ parameters:
   PageHeader:
     name: page
     description: the query page
+    default: 0
     type: integer
     in: query
     required: false
-    default: 0
   Filter:
     name: filter
     description: the query filter
