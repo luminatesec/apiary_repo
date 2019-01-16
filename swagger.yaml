@@ -658,6 +658,7 @@ paths:
       summary: List Applications
       description:  |
         Enumerates applications in your Luminate tenant with pagination.
+        
         In order to retrieve the next page while 'last' is false, perform the exact same request as previously and append an incremented 'page' query field. 
       operationId: listAllApps
       consumes:
