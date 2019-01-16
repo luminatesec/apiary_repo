@@ -217,7 +217,7 @@ parameters:
     required: false
   Sort:
     name: sort
-    description: the query sort
+    description: the query sort (name or id)
     type: string
     in: query
     required: false
