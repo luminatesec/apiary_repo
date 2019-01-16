@@ -243,6 +243,14 @@ parameters:
     minimum: 1
     default: 25
     type: integer
+  PageOffset:
+    name: "pageOffset"
+    in: query
+    description: |
+      Depending on the Identity Provider, this field can either be a number or a string.
+      It can’t be assumed and a valid value must be used from a response returned by the directory-service for the previous page.
+    required: false
+    type: string
   DisablePagination:
     name: "disablePagination"
     in: query
@@ -1026,8 +1034,8 @@ paths:
         required: true
         type: string
       - $ref: '#/parameters/AuthHeader'
-      - $ref: '#/parameters/PageSizeHeader'
-      - $ref: '#/parameters/Email'
+      - $ref: '#/parameters/ItemsPerPage'
+      - $ref: '#/parameters/PageOffset'
       - $ref: '#/parameters/Filter'
       responses:
         200:
@@ -1227,7 +1235,7 @@ paths:
           type: string
         - $ref: '#/parameters/AuthHeader'
         - $ref: '#/parameters/QueryFilterHeader'
-        - $ref: '#/parameters/PageSizeHeader'
+        - $ref: '#/parameters/ItemsPerPage'
       responses:
         200:
           description: "A list of groups"
