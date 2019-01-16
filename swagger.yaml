@@ -196,6 +196,13 @@ parameters:
     type: string
     in: query
     required: false
+  PageHeader:
+    name: page
+    description: the query page
+    type: integer
+    in: query
+    required: false
+    default: 0
   Filter:
     name: filter
     description: the query filter
@@ -650,17 +657,17 @@ paths:
         - Applications
       summary: List Applications
       description:  |
-        Enumerates applications added to your Luminate tenant.
-        
-        Returns Array of Applications
+        Enumerates applications in your Luminate tenant with pagination.
+        In order to retrieve the next page while 'last' is false, perform the exact same request as previously and append an incremented 'page' query field. 
       operationId: listAllApps
       consumes:
         - application/json
       parameters:
         - $ref: '#/parameters/AuthHeader'
-        - $ref: '#/parameters/Filter'
         - $ref: '#/parameters/Sort'
         - $ref: '#/parameters/Size'
+        - $ref: '#/parameters/PageHeader'
+        - $ref: '#/parameters/Filter'
       produces:
         - application/json;charset=UTF-8
       responses:
