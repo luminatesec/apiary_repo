@@ -198,11 +198,12 @@ parameters:
     required: false
   PageHeader:
     name: page
-    description: the query page
-    default: 0
-    type: integer
+    description: |
+      the query page. Starts at 0
     in: query
     required: false
+    default: 0
+    type: integer
   Filter:
     name: filter
     description: the query filter
