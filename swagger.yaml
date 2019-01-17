@@ -255,8 +255,8 @@ parameters:
     name: "pageOffset"
     in: query
     description: |
-      Depending on the Identity Provider, this field can either be a number or a string.
-      It can’t be assumed and a valid value must be used from a response returned by the directory-service for the previous page.
+      This is the next page offset indicator, it should be passed in the pageOffset query parameter when requesting the next page.
+      This can be a number, a hash or whatever
     required: false
     type: string
   DisablePagination:
